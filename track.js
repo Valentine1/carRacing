@@ -7,7 +7,7 @@ class Track {
   }
   
   draw(ctx, car) {
-    
+    ctx.save();
     ctx.translate(900-car.x, 600-car.y);
    // this.#drawBorder(ctx, this.border1);
     //this.#drawBorder(ctx, this.border2);
@@ -15,8 +15,14 @@ class Track {
     //ctx.stroke();
     ctx.beginPath();
     ctx.strokeStyle = "green";
+    ctx.fillStyle = "darkGrey";
+    ctx.lineWidth = 4;
+    
     ctx.stroke(this.path);
-    ctx.translate(car.x, car.y);
+    ctx.fill(this.path);
+   
+   
+    ctx.restore();
   }
 
   #drawBorder(ctx, border){

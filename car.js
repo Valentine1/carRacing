@@ -1,19 +1,19 @@
 class Car {
 
-  constructor(data, maxSpeed = 2) {
+  constructor(data, maxSpeed = 5) {
     this.path = new Path2D(data);
-    this.x = 600;
-    this.y = 400;
+    this.x = 0;
+    this.y = 0;
    
     this.width = 52;
     this.height = 98;
     this.controls = new Controls("KEYS");
-    this.angle = -Math.PI/2;
+    this.angle = -Math.PI /2;
     this.speed = 0;
-    this.acceleration = 0.2;
-    this.deceleration = 0.04
+    this.acceleration = 0.04;
+    this.deceleration = 0.05
     this.maxSpeed = maxSpeed;
-    this.friction = 0.02;
+    this.friction = 0.01;
 
     this.sensor = new Sensor(this);
   }
@@ -45,16 +45,14 @@ class Car {
     ctx.rect( -this.x + 1040, -this.y + 760, 26, 98);
     ctx.rect(-this.x + 1040, -this.y + 160, 26, 98);
     ctx.stroke();
-   
-    ctx.translate(600, 400);
-   
+    ctx.translate(600,400);
    // ctx.rotate(-this.angle);
     if (this.sensor && drawSensors) {
       this.sensor.draw(ctx);
     } 
     
     ctx.rotate(-this.angle);
-    ctx.translate(26, 44);
+    ctx.translate(26, 5);
     
     ctx.beginPath();
     ctx.arc(0, 0, 5, 0, 2 * Math.PI);
@@ -164,14 +162,13 @@ class Car {
     if (this.speed != 0) {
       const flip = this.speed > 0 ? 1 : -1;
       if (this.controls.left) {
-        this.angle += 0.015 * flip;
+        this.angle += (0.004 + 0.015 * Math.abs(this.speed)/ this.maxSpeed) * flip;
       }
 
       if (this.controls.right) {
-        this.angle -= 0.015 * flip;
+        this.angle -= (0.005 + 0.014  *(Math.abs(this.speed)/ this.maxSpeed))* flip;
       }
     }
-
     this.x -= Math.sin(this.angle) * this.speed;
     this.y -= Math.cos(this.angle) * this.speed;
   }
